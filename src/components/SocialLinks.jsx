@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 
 const SocialLinks = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
   const links = [
     {
       id: 1,
@@ -12,7 +14,7 @@ const SocialLinks = () => {
           LinkedIn <FaLinkedin size={30} />
         </>
       ),
-      href: "https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqazEtVUlIOUdjVV8xQlo2MExVczZsd05EXzBMQXxBQ3Jtc0tsU0MyeVlfbkFpTWxVZml2TmNQejFiTHc5WG1wWXVxRnd4NWZrUXVLOXA0eHFYOWRTRkdfNU0xS0tERlhPS0ZDaDRqb0pOQkI3OUluaWNxb0tGS3A3TnhuX0ZtX1lKWk0xbE9zQmc4UGloNzJabDV2SQ&q=www.linkedin.com%2Fin%2Faditya-gangrade-689177220",
+      href: "https://www.linkedin.com/in/aditya-gangrade-689177220",
       style: "rounded-tr-md",
     },
     {
@@ -40,14 +42,14 @@ const SocialLinks = () => {
           Instagram <FaInstagram size={30} />
         </>
       ),
-      href: "https://www.youtube.com/redirect?event=channel_description&redir_token=QUFFLUhqbE9zZTAyYnNObV9oTGlXalZsQjFCQkJvQlFMZ3xBQ3Jtc0tsM2NuLUp3MW9QczBXQXJMd3ZUM1N6dmszSWNFWUJGQW12UlJqSU9WS052V090NW1EcDVTejNZbUhwWUFoMlp1dTBQanA2eWhLM1ViQWVxMnlkUDFqNl9GMjNKbzhMRDA5dXFQNlNfNUdNLVN2anZuNA&q=https%3A%2F%2Fwww.instagram.com%2F_a.d.i.t.y.a_g%2F",
+      href: "https://www.instagram.com/_a.d.i.t.y.a_g/",
     },
     {
       id: 5,
       child: (
         <>
           Mail
-          <HiOutlineMail size={30} />{" "}
+          <HiOutlineMail size={30} />
         </>
       ),
       href: "mailto:adityagangrade007@gmail.com",
@@ -66,23 +68,50 @@ const SocialLinks = () => {
   ];
 
   return (
-    <div className="hidden lg:flex flex-col top-[35%] left-0 fixed">
-      <ul>
-        {links.map(({ id, child, href, style, download }) => (
-          <li
-            key={id}
-            className={
-              "flex justify-between items-center w-40 h-14 px-4 ml-[-100px] hover:ml-[-10px] hover:rounded-md duration-300 bg-gray-500" +
-              " " +
-              style
-            }
-          >
-            <a href={href} target="_blank" download={download} className="flex justify-between items-center w-full text-white">
-              {child}
-            </a>
-          </li>
-        ))}
-      </ul>
+    <div className="relative">
+      {/* Toggle Button for Small Screens */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed bottom-4 left-4 z-50 p-2 bg-gray-700 rounded-full text-white shadow-md"
+      >
+        {isOpen ? "Close" : "Open"}
+      </button>
+
+      {/* Slide-In Panel for Small Screens */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 transition-transform duration-300 ease-in-out ${
+          isOpen ? "transform translate-x-0" : "transform -translate-x-full"
+        } lg:hidden`}
+      >
+        <ul>
+          {links.map(({ id, child, href, download, style }) => (
+            <li
+              key={id}
+              className={`flex justify-between items-center h-14 px-4 mb-4 bg-gray-600 rounded-md ${style}`}
+            >
+              <a href={href} target="_blank" download={download} className="flex justify-between items-center w-full text-white">
+                {child}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Desktop Version */}
+      <div className="hidden lg:flex flex-col top-[35%] left-0 fixed">
+        <ul>
+          {links.map(({ id, child, href, download, style }) => (
+            <li
+              key={id}
+              className={`flex justify-between items-center w-40 h-14 px-4 ml-[-100px] hover:ml-[-10px] hover:rounded-md duration-300 bg-gray-500 ${style}`}
+            >
+              <a href={href} target="_blank" download={download} className="flex justify-between items-center w-full text-white">
+                {child}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
