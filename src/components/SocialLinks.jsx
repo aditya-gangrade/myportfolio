@@ -74,7 +74,7 @@ const SocialLinks = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed bottom-4 left-4 z-50 p-2 bg-gray-700 rounded-full text-white shadow-md"
       >
-        {isOpen ? "Close" : "Open"}
+        {isOpen ? "Close" : "Links"}
       </button>
 
       {/* Slide-In Panel for Small Screens */}
