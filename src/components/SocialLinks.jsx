@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import { HiOutlineMail } from "react-icons/hi";
 import { BsFillPersonLinesFill } from "react-icons/bs";
 
 const SocialLinks = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const linksContainerRef = useRef(null); // Reference for the social links container
+  const buttonRef = useRef(null); // Reference for the button itself
 
   const links = [
     {
@@ -67,10 +69,31 @@ const SocialLinks = () => {
     },
   ];
 
+  // Close the container when a click outside is detected (but not on the button)
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        linksContainerRef.current &&
+        !linksContainerRef.current.contains(event.target) &&
+        buttonRef.current && 
+        !buttonRef.current.contains(event.target) // Ignore if clicked on the button
+      ) {
+        setIsOpen(false); // Close the container if clicked outside
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className="relative">
       {/* Toggle Button for Small Screens */}
       <button
+        ref={buttonRef} // Attach ref to the button
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed bottom-4 left-4 z-50 p-2 bg-gray-700 rounded-full text-white shadow-md"
       >
@@ -79,6 +102,7 @@ const SocialLinks = () => {
 
       {/* Slide-In Panel for Small Screens */}
       <div
+        ref={linksContainerRef} // Attach ref to the container
         className={`fixed top-0 left-0 h-full w-64 bg-gray-800 text-white p-4 transition-transform duration-300 ease-in-out ${
           isOpen ? "transform translate-x-0" : "transform -translate-x-full"
         } lg:hidden`}
